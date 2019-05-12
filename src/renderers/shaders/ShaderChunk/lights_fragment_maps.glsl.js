@@ -3,7 +3,9 @@ export default /* glsl */`
 
 	#ifdef USE_LIGHTMAP
 
-		vec3 lightMapIrradiance = texture2D( lightMap, vUv2 ).xyz * lightMapIntensity;
+		vec4 lightIntensity = texture2D( lightMap, vUv2 );
+		lightIntensity.rgb = lightMapTexelToLinear( lightIntensity ).rgb;
+		vec3 lightMapIrradiance = lightIntensity.rgb * lightMapIntensity;
 
 		#ifndef PHYSICALLY_CORRECT_LIGHTS
 
